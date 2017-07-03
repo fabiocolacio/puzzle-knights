@@ -3,7 +3,8 @@ GAME.MainMenuState = function()
     var bg = new Image();
     bg.src = 'res/bg/mountains.png';
     
-    var menuItems = ['Play'];
+    var menuItems = ['Play', 'Options'];
+    var activeMenuItem = 0;
     
     this.update = function()
     {
@@ -27,6 +28,15 @@ GAME.MainMenuState = function()
         
         for (index in menuItems)
         {
+            if (index == activeMenuItem)
+            {
+                GAME.ctx.fillStyle = 'yellow';
+            }
+            else
+            {
+                GAME.ctx.fillStyle = 'black';
+            }
+        
             item = menuItems[index];
             txtWidth = GAME.ctx.measureText(item).width;
             txtx = (GAME.WIDTH / 2) - (txtWidth / 2);
