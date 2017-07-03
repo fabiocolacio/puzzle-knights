@@ -11,7 +11,7 @@ GAME.init = function()
     GAME.canvas.height = GAME.HEIGHT;
     GAME.ctx = GAME.canvas.getContext('2d');
 
-    GAME.currentState;
+    GAME.currentState = new GAME.MainMenuState();
 
     GAME.resize();
 
@@ -48,3 +48,4 @@ GAME.update = function()
 
 window.addEventListener('load', GAME.init, false);
 window.addEventListener('resize', GAME.resize, false);
+
