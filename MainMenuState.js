@@ -3,8 +3,23 @@ GAME.MainMenuState = function()
     var bg = new Image();
     bg.src = 'res/bg/mountains.png';
     
-    var menuItems = ['Play', 'Options'];
+    var menuItems =
+    [
+        {txt: 'Play',    callback: playBtnPressed},
+        {txt: 'Options', callback: optionsBtnPressed}
+    ];
+    
     var activeMenuItem = 0;
+    
+    function optionsBtnPressed()
+    {
+        console.log('options');
+    }
+    
+    function playBtnPressed()
+    {
+        console.log('play');
+    }
     
     this.update = function()
     {
@@ -37,12 +52,44 @@ GAME.MainMenuState = function()
                 GAME.ctx.fillStyle = 'black';
             }
         
-            item = menuItems[index];
+            item = menuItems[index].txt;
             txtWidth = GAME.ctx.measureText(item).width;
             txtx = (GAME.WIDTH / 2) - (txtWidth / 2);
             GAME.ctx.fillText(item, txtx, txty);
             txty = txty + 10 + txtHeight;
         }
+    };
+    
+    this.onKeyDown = function(e)
+    {
+        switch (e.keyCode)
+        {
+            case 37: // left arrow
+                break;
+                
+            case 38: // up arrow
+                activeMenuItem = 
+                    Math.abs((activeMenuItem - 1) % menuItems.length);
+                break;
+                
+            case 39: // right arrow
+                break;
+                
+            case 40: // down arrow
+                activeMenuItem =
+                    Math.abs((activeMenuItem + 1) % menuItems.length);
+                break;
+                
+            case 13: // enter key
+            case 32: // space
+                menuItems[activeMenuItem].callback();
+                break;
+        }
+    };
+    
+    this.onKeyUp = function(e)
+    {
+        
     };
 };
 

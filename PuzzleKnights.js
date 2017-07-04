@@ -49,11 +49,12 @@ GAME.resize = function()
 GAME.onKeyDown = function(e)
 {
     console.log(e);
+    GAME.currentState.onKeyDown(e);
 };
 
 GAME.onKeyUp = function(e)
 {
-    console.log(e);
+    GAME.currentState.onKeyUp(e);
 };
 
 window.addEventListener('load', GAME.init, false);
