@@ -18,6 +18,11 @@ GAME.init = function()
     GAME.interval = setInterval(GAME.update, 20);
 };
 
+GAME.update = function()
+{
+    GAME.currentState.update();
+};
+
 GAME.resize = function()
 {
     var winHeight = window.innerHeight;
@@ -41,11 +46,18 @@ GAME.resize = function()
     GAME.canvas.style.height = GAME.currentHeight + 'px';
 };
 
-GAME.update = function()
+GAME.onKeyDown = function(e)
 {
-    GAME.currentState.update();
+    console.log(e);
+};
+
+GAME.onKeyUp = function(e)
+{
+    console.log(e);
 };
 
 window.addEventListener('load', GAME.init, false);
 window.addEventListener('resize', GAME.resize, false);
+window.addEventListener('keydown', GAME.onKeyDown, false);
+window.addEventListener('keyup', GAME.onKeyUp, false);
 
