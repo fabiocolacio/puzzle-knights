@@ -5,8 +5,8 @@ GAME.MainMenuState = function()
     
     var menuItems =
     [
-        {txt: 'Play',    callback: playBtnPressed},
-        {txt: 'Options', callback: optionsBtnPressed}
+        { txt: 'Play',    callback: playBtnPressed    },
+        { txt: 'Options', callback: optionsBtnPressed }
     ];
     
     var activeMenuItem = 0;

@@ -5,6 +5,24 @@ GAME.PlayState = function()
     
     var fg = new Image();
     fg.src = 'res/ui/layout.png';
+    
+    var blockTypes =
+    [
+        { name: 'bishop' },
+        { name: 'bomb'   },
+        { name: 'king'   },
+        { name: 'knight' },
+        { name: 'pawn'   },
+        { name: 'queen'  },
+        { name: 'rook'   },
+        { name: 'spy'    }
+    ];
+    for (index in blockTypes)
+    {
+        block = blockTypes[index]
+        block.img = new Image();
+        block.img.src = 'res/blocks/' + block.name  + '.png';
+    }
 
     this.update = function()
     {
