@@ -18,6 +18,11 @@ GAME.init = function()
     GAME.interval = setInterval(GAME.update, 20);
 };
 
+GAME.clearCanvas = function()
+{
+    GAME.ctx.clearRect(0, 0, GAME.canvas.width, GAME.canvas.height);
+};
+
 GAME.update = function()
 {
     GAME.currentState.update();

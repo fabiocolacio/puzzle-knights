@@ -19,6 +19,7 @@ GAME.MainMenuState = function()
     function playBtnPressed()
     {
         console.log('play');
+        GAME.currentState = new GAME.PlayState();
     }
     
     this.update = function()
@@ -28,6 +29,8 @@ GAME.MainMenuState = function()
     
     this.render = function()
     {
+        GAME.clearCanvas();
+        
         GAME.ctx.drawImage(bg, 0, 0);
         
         var txtWidth;
