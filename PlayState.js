@@ -5,7 +5,7 @@ GAME.PlayState = function()
     var deltaTime = 0;
     var gameLength = 0;
 
-    var gameSpeed = 0.1;
+    var gameSpeed = 0;
 
     var bg = new Image();
     bg.src = 'res/bg/mountains.png';
@@ -80,9 +80,15 @@ GAME.PlayState = function()
         gameLength += deltaTime;
     }
 
+    function updateGameSpeed()
+    {
+        gameSpeed = gameSpeed * (gameLength / 60000) + 0.1;
+    }
+
     this.update = function()
     {
         updateTimer();
+        updateGameSpeed();
         
         if (Math.floor(blocksY) <= 10)
         {
@@ -91,7 +97,6 @@ GAME.PlayState = function()
         
         blocksY -= gameSpeed;
         
-        console.log(getBottomRowY(blocks, blocksY));
         if (getBottomRowY(blocks, blocksY) < 460)
         {
             appendRandomRow(blocks);
@@ -106,7 +111,7 @@ GAME.PlayState = function()
         
         GAME.ctx.drawImage(bg, 0, 0);
         
-        renderBlocks(blocks, blocksX, Math.floor(blocksY));
+        renderBlocks(blocks, Math.floor(blocksX), Math.floor(blocksY));
         
         GAME.ctx.drawImage(fg, 0, 0);
     };
