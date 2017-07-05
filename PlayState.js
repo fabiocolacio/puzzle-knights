@@ -13,6 +13,11 @@ GAME.PlayState = function()
     var fg = new Image();
     fg.src = 'res/ui/layout.png';
     
+    var selectorImg = new Image();
+    selectorImg.src = 'res/ui/selector.png';
+    var selectorXIndex = 0;
+    var selectorYIndex = 0;
+    
     var blockTypes =
     [
         { name: 'bishop' },
@@ -71,6 +76,13 @@ GAME.PlayState = function()
     {
         return (50 * blocks.length) + y;
     }
+    
+    function renderSelector()
+    {
+        var x = blocksX + (selectorXIndex * 50);
+        var y = blocksY + (selectorYIndex * 50);
+        GAME.ctx.drawImage(selectorImg, Math.floor(x), Math.floor(y));
+    }
 
     function updateTimer()
     {
@@ -113,12 +125,40 @@ GAME.PlayState = function()
         
         renderBlocks(blocks, Math.floor(blocksX), Math.floor(blocksY));
         
+        renderSelector();
+        
         GAME.ctx.drawImage(fg, 0, 0);
     };
 
     this.onKeyDown = function(e)
     {
-    
+        switch (e.keyCode)
+        {
+            case GAME.KEY_ARROW_UP:
+                if (selectorYIndex > 0)
+                {
+                    --selectorYIndex;
+                }
+                break;
+                
+            case GAME.KEY_ARROW_DOWN:
+                ++selectorYIndex;
+                break;
+                
+            case GAME.KEY_ARROW_LEFT:
+                if (selectorXIndex > 0)
+                {
+                    --selectorXIndex;
+                }
+                break;
+                
+            case GAME.KEY_ARROW_RIGHT:
+                if (selectorXIndex < 4)
+                {
+                    ++selectorXIndex;
+                }
+                break;
+        }
     };
     
     this.onKeyUp = function(e)

@@ -67,24 +67,24 @@ GAME.MainMenuState = function()
     {
         switch (e.keyCode)
         {
-            case 37: // left arrow
+            case GAME.KEY_ARROW_LEFT: // left arrow
                 break;
                 
-            case 38: // up arrow
+            case GAME.KEY_ARROW_UP: // up arrow
                 activeMenuItem = 
                     Math.abs((activeMenuItem - 1) % menuItems.length);
                 break;
                 
-            case 39: // right arrow
+            case GAME.KEY_ARROW_RIGHT: // right arrow
                 break;
                 
-            case 40: // down arrow
+            case GAME.KEY_ARROW_DOWN: // down arrow
                 activeMenuItem =
                     Math.abs((activeMenuItem + 1) % menuItems.length);
                 break;
                 
-            case 13: // enter key
-            case 32: // space
+            case GAME.KEY_ENTER: // enter key
+            case GAME.KEY_SPACE: // space
                 menuItems[activeMenuItem].callback();
                 break;
         }

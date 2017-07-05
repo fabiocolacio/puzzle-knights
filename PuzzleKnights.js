@@ -2,9 +2,16 @@ var GAME = {};
 
 GAME.init = function()
 {
-    GAME.WIDTH = 320;
+    GAME.WIDTH  = 320;
     GAME.HEIGHT = 480;
-    GAME.RATIO = GAME.WIDTH / GAME.HEIGHT;
+    GAME.RATIO  = GAME.WIDTH / GAME.HEIGHT;
+    
+    GAME.KEY_ARROW_LEFT  = 37;
+    GAME.KEY_ARROW_UP    = 38;
+    GAME.KEY_ARROW_RIGHT = 39;
+    GAME.KEY_ARROW_DOWN  = 40;
+    GAME.KEY_ENTER       = 13;
+    GAME.KEY_SPACE       = 32;
     
     GAME.canvas = document.getElementById('game');
     GAME.canvas.width = GAME.WIDTH;
