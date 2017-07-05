@@ -84,6 +84,11 @@ GAME.PlayState = function()
     {
         updateTimer();
         
+        if (Math.floor(blocksY) <= 10)
+        {
+            GAME.currentState = new GAME.LossState();
+        }
+        
         blocksY -= gameSpeed;
         
         console.log(getBottomRowY(blocks, blocksY));
