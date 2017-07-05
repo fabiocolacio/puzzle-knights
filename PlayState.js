@@ -6,6 +6,8 @@ GAME.PlayState = function()
     var gameLength = 0;
 
     var gameSpeed = 0;
+    var fasterSpeed = 2;
+    var goFaster = false;
 
     var bg = new Image();
     bg.src = 'res/bg/mountains.png';
@@ -97,6 +99,16 @@ GAME.PlayState = function()
         gameSpeed = gameSpeed * (gameLength / 60000) + 0.1;
     }
 
+    function swapAtSelector()
+    {
+        var r = selectorYIndex;
+        var c = selectorXIndex;
+        var leftBlock = blocks[r][c];
+        var rightBlock = blocks[r][c + 1];
+        blocks[r][c] = rightBlock;
+        blocks[r][c + 1] = leftBlock;
+    }
+
     this.update = function()
     {
         updateTimer();
@@ -107,7 +119,7 @@ GAME.PlayState = function()
             GAME.currentState = new GAME.LossState();
         }
         
-        blocksY -= gameSpeed;
+        blocksY -= goFaster ? fasterSpeed : gameSpeed;
         
         if (getBottomRowY(blocks, blocksY) < 460)
         {
@@ -158,12 +170,25 @@ GAME.PlayState = function()
                     ++selectorXIndex;
                 }
                 break;
+                
+            case GAME.KEY_Z:
+                swapAtSelector();
+                break;
+                
+            case GAME.KEY_X:
+                goFaster = true;
+                break;
         }
     };
     
     this.onKeyUp = function(e)
     {
-    
+        switch (e.keyCode)
+        {
+            case GAME.KEY_X:
+                goFaster = false;
+                break;
+        }
     };
 
 };

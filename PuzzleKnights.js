@@ -1,27 +1,31 @@
 var GAME = {};
 
 GAME.init = function()
-{
+{   
+    /** GAME DIMENSIONS (NOT CANVAS DIMENSIONS) **/
     GAME.WIDTH  = 320;
     GAME.HEIGHT = 480;
     GAME.RATIO  = GAME.WIDTH / GAME.HEIGHT;
     
+    /** KEY MAPPINGS **/
     GAME.KEY_ARROW_LEFT  = 37;
     GAME.KEY_ARROW_UP    = 38;
     GAME.KEY_ARROW_RIGHT = 39;
     GAME.KEY_ARROW_DOWN  = 40;
     GAME.KEY_ENTER       = 13;
     GAME.KEY_SPACE       = 32;
+    GAME.KEY_Z           = 90;
+    GAME.KEY_X           = 88;
     
+    /** SETUP CANVAS **/
     GAME.canvas = document.getElementById('game');
     GAME.canvas.width = GAME.WIDTH;
     GAME.canvas.height = GAME.HEIGHT;
     GAME.ctx = GAME.canvas.getContext('2d');
-
-    GAME.currentState = new GAME.MainMenuState();
-
     GAME.resize();
-
+    
+    /** START MAIN MENU STATE **/
+    GAME.currentState = new GAME.MainMenuState();
     GAME.interval = setInterval(GAME.update, 20);
 };
 
