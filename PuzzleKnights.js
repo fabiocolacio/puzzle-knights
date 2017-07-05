@@ -18,6 +18,11 @@ GAME.init = function()
     GAME.interval = setInterval(GAME.update, 20);
 };
 
+GAME.randomInt = function(lower, upper)
+{
+    return Math.floor((Math.random() * upper) + lower);
+};
+
 GAME.clearCanvas = function()
 {
     GAME.ctx.clearRect(0, 0, GAME.canvas.width, GAME.canvas.height);
