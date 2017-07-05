@@ -121,7 +121,7 @@ GAME.PlayState = function()
         
         blocksY -= goFaster ? fasterSpeed : gameSpeed;
         
-        if (getBottomRowY(blocks, blocksY) < 460)
+        if (getBottomRowY(blocks, blocksY) < 410)
         {
             appendRandomRow(blocks);
         }
@@ -154,7 +154,10 @@ GAME.PlayState = function()
                 break;
                 
             case GAME.KEY_ARROW_DOWN:
-                ++selectorYIndex;
+                if (blocksY + (50 * selectorYIndex) < 360)
+                {
+                    ++selectorYIndex;
+                }
                 break;
                 
             case GAME.KEY_ARROW_LEFT:

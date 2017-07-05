@@ -78,8 +78,8 @@ GAME.onKeyUp = function(e)
     GAME.currentState.onKeyUp(e);
 };
 
-window.addEventListener('load', GAME.init, false);
-window.addEventListener('resize', GAME.resize, false);
+window.addEventListener('load',    GAME.init,      false);
+window.addEventListener('resize',  GAME.resize,    false);
 window.addEventListener('keydown', GAME.onKeyDown, false);
-window.addEventListener('keyup', GAME.onKeyUp, false);
+window.addEventListener('keyup',   GAME.onKeyUp,   false);
 

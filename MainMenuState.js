@@ -66,25 +66,19 @@ GAME.MainMenuState = function()
     this.onKeyDown = function(e)
     {
         switch (e.keyCode)
-        {
-            case GAME.KEY_ARROW_LEFT: // left arrow
-                break;
-                
-            case GAME.KEY_ARROW_UP: // up arrow
+        {      
+            case GAME.KEY_ARROW_UP:
                 activeMenuItem = 
                     Math.abs((activeMenuItem - 1) % menuItems.length);
                 break;
                 
-            case GAME.KEY_ARROW_RIGHT: // right arrow
-                break;
-                
-            case GAME.KEY_ARROW_DOWN: // down arrow
+            case GAME.KEY_ARROW_DOWN:
                 activeMenuItem =
                     Math.abs((activeMenuItem + 1) % menuItems.length);
                 break;
                 
-            case GAME.KEY_ENTER: // enter key
-            case GAME.KEY_SPACE: // space
+            case GAME.KEY_ENTER:
+            case GAME.KEY_SPACE:
                 menuItems[activeMenuItem].callback();
                 break;
         }
