@@ -69,7 +69,12 @@ GAME.PlayState = function()
             for (col in blocks[row])
             {
                 block = blocks[row][col];
-                GAME.ctx.drawImage(block.img, x + (50 * col), y + (50 * row));
+                if (block)
+                {
+                    GAME.ctx.drawImage(block.img,
+                                       x + (50 * col),
+                                       y + (50 * row));
+                }
             }
         }
     }
@@ -108,11 +113,126 @@ GAME.PlayState = function()
         blocks[r][c] = rightBlock;
         blocks[r][c + 1] = leftBlock;
     }
+    
+    function getMatches()
+    {
+        var lines = [];
+        var numMatches = 0;
+        var block;
+        var tmp;
+        var start;
+        var end;
+        var line = function(startR, startC, endR, endC)
+        {
+            this.startR = startR;
+            this.startC = startC;
+            this.endR   = endR;
+            this.endC   = endC;
+        };
+        
+        for (row in blocks)
+        {
+            numMatches = start = end = 0;
+            for (col in blocks[row])
+            {
+                if (col - 1 >= 0)
+                {
+                    block = blocks[row][col];
+                    tmp = blocks[row][col-1];
+                    if (block && tmp)
+                    {
+                        if (block.name === tmp.name)
+                        {
+                            if (numMatches <= 0)
+                            {
+                                start = col - 1;
+                            }
+                            ++numMatches;
+                            end = col;
+                        }
+                        else
+                        {
+                            numMatches = 0;
+                        }
+                    }
+                }
+            }
+            if (numMatches >= 1)
+            {
+                lines.push(new line(row, start, row, end));
+            }
+        }
+        
+        for (col in blocks[0])
+        {
+            numMatches = start = end = 0;
+            for (row in blocks)
+            {
+                if (row - 1 >= 0)
+                {
+                    block = blocks[row][col];
+                    tmp = blocks[row-1][col];
+                    if (block && tmp)
+                    {
+                        if (block.name === tmp.name)
+                        {
+                            if (numMatches <= 0)
+                            {
+                                start = row -1;
+                            }
+                            ++numMatches;
+                            end = row;
+                        }
+                        else
+                        {
+                            numMatches = 0;
+                        }
+                    }
+                }
+            }
+            if (numMatches >= 1)
+            {
+                lines.push(new line(start, col, end, col));
+            }
+        }
+        
+        return lines;
+    }
+    
+    function destroyLines(lines)
+    {
+        for (index in lines)
+        {
+            var line = lines[index];
+            if (line.startR == line.endR &&
+                line.endC - line.startC >= 3)
+            {
+                for (i = line.startC; i <= line.endC; ++i)
+                {
+                    blocks[line.startR][i] = null;
+                }
+            }
+            else if (line.startC === line.endC &&
+                     line.endR - line.startR >= 3)
+            {
+                for (i = line.startR; i <= line.endR; ++i)
+                {
+                    blocks[i][line.startC] = null;
+                }
+            }
+        }
+    }
 
     this.update = function()
     {
         updateTimer();
         updateGameSpeed();
+        
+        var matches = getMatches();
+        if (matches.length > 0)
+        {
+            destroyLines(matches);
+        }
         
         if (Math.floor(blocksY) <= 10)
         {
