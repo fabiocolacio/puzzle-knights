@@ -225,6 +225,36 @@ GAME.PlayState = function()
             }
         }
     }
+    
+    function findNumEmptyTopRows()
+    {
+        var numEmptyRows = 0;
+        for (var r = 0; r < blocks.length; ++r)
+        {
+            var isRowEmpty = true;
+            for (var c = 0; c < 6; ++c)
+            {
+                if (blocks[r][c] != null)
+                {
+                    isRowEmpty = false;
+                }
+            }
+            if (!isRowEmpty)
+            {
+                numEmptyRows = r;
+                break;
+            }
+        }
+        return numEmptyRows;
+    }
+    
+    function destroyTopRows(numRows)
+    {
+        for (var i = 0; i < numRows; ++i)
+        {
+            blocks.shift();
+        }
+    }
 
     this.update = function()
     {
@@ -235,6 +265,10 @@ GAME.PlayState = function()
         destroyBlocks(blocksToDestroy);
         
         applyGravity();
+        
+        var numEmptyTopRows = findNumEmptyTopRows();
+        destroyTopRows(numEmptyTopRows);
+        blocksY += 50 * numEmptyTopRows;
         
         if (Math.floor(blocksY) <= 10)
         {
