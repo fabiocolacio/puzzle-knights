@@ -206,6 +206,25 @@ GAME.PlayState = function()
             blocks[block.r][block.c] = null; 
         }
     }
+    
+    function applyGravity()
+    {
+        for (var c = 0; c < 6; ++c)
+        {
+            for (var r = 0; r < blocks.length; ++r)
+            {
+                var block = blocks[r][c];
+                while (block &&
+                       blocks[r + 1] != undefined &&
+                       blocks[r+1][c] == null)
+                {
+                    blocks[r+1][c] = blocks[r][c];
+                    blocks[r][c] = null;
+                    r += 1;
+                }
+            }
+        }
+    }
 
     this.update = function()
     {
@@ -214,6 +233,8 @@ GAME.PlayState = function()
         
         blocksToDestroy = getMatches();
         destroyBlocks(blocksToDestroy);
+        
+        applyGravity();
         
         if (Math.floor(blocksY) <= 10)
         {
