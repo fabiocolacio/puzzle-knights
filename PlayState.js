@@ -116,110 +116,94 @@ GAME.PlayState = function()
     
     function getMatches()
     {
-        var lines = [];
-        var numMatches = 0;
-        var block;
-        var tmp;
-        var start;
-        var end;
-        var line = function(startR, startC, endR, endC)
+        var tmp = [];
+        var blocksToDestroy = [];
+        function coords(r, c)
         {
-            this.startR = startR;
-            this.startC = startC;
-            this.endR   = endR;
-            this.endC   = endC;
-        };
+            this.r = r;
+            this.c = c;
+        }
         
+        function tmpDump()
+        {
+            if (tmp.length >= 3)
+            {
+                while (tmp.length > 0)
+                {
+                    blocksToDestroy.push(tmp.pop());
+                }
+            }
+            else
+            {
+                tmp = [];
+            }
+        }
+        
+        /** FIND HORIZONTAL MATCHES **/
         for (row in blocks)
         {
-            numMatches = start = end = 0;
-            for (col in blocks[row])
+            for(col in blocks[row])
             {
-                if (col - 1 >= 0)
+                var block = blocks[row][col];
+                if (block != null)
                 {
-                    block = blocks[row][col];
-                    tmp = blocks[row][col-1];
-                    if (block && tmp)
+                    if (tmp.length > 0 && block.name != blocks[row][col -1].name)
                     {
-                        if (block.name === tmp.name)
-                        {
-                            if (numMatches <= 0)
-                            {
-                                start = col - 1;
-                            }
-                            ++numMatches;
-                            end = col;
-                        }
-                        else
-                        {
-                            numMatches = 0;
-                        }
+                        tmpDump();
+                    }
+                    
+                    tmp.push(new coords(row, col));
+                    
+                    if (col >= (blocks[row].length - 1))
+                    {
+                        tmpDump();
                     }
                 }
-            }
-            if (numMatches >= 1)
-            {
-                lines.push(new line(row, start, row, end));
+                else
+                {
+                    tmpDump();
+                }
             }
         }
         
+        tmpDump();
+        
+        /** FIND VERTICAL MATCHES **/
         for (col in blocks[0])
         {
-            numMatches = start = end = 0;
             for (row in blocks)
             {
-                if (row - 1 >= 0)
+                var block = blocks[row][col];
+                if (block != null)
                 {
-                    block = blocks[row][col];
-                    tmp = blocks[row-1][col];
-                    if (block && tmp)
+                    if (tmp.length > 0 && block.name != blocks[row - 1][col].name)
                     {
-                        if (block.name === tmp.name)
-                        {
-                            if (numMatches <= 0)
-                            {
-                                start = row -1;
-                            }
-                            ++numMatches;
-                            end = row;
-                        }
-                        else
-                        {
-                            numMatches = 0;
-                        }
+                        tmpDump();
+                    }
+                    
+                    tmp.push(new coords(row, col));
+                    
+                    if (row >= (blocks.length - 1))
+                    {
+                        tmpDump();
                     }
                 }
-            }
-            if (numMatches >= 1)
-            {
-                lines.push(new line(start, col, end, col));
+                else
+                {
+                    tmpDump();
+                }
             }
         }
         
-        return lines;
+        return blocksToDestroy;
     }
     
-    function destroyLines(lines)
+    function destroyBlocks(blocksToDestroy)
     {
-        for (index in lines)
+        for (index in blocksToDestroy)
         {
-            var line = lines[index];
-            if (line.startR == line.endR &&
-                line.endC - line.startC >= 3)
-            {
-                for (i = line.startC; i <= line.endC; ++i)
-                {
-                    blocks[line.startR][i] = null;
-                }
-            }
-            else if (line.startC === line.endC &&
-                     line.endR - line.startR >= 3)
-            {
-                for (i = line.startR; i <= line.endR; ++i)
-                {
-                    blocks[i][line.startC] = null;
-                }
-            }
+            var block = blocksToDestroy[index];
+            blocks[block.r][block.c] = null; 
         }
     }
 
@@ -228,11 +212,8 @@ GAME.PlayState = function()
         updateTimer();
         updateGameSpeed();
         
-        var matches = getMatches();
-        if (matches.length > 0)
-        {
-            destroyLines(matches);
-        }
+        blocksToDestroy = getMatches();
+        destroyBlocks(blocksToDestroy);
         
         if (Math.floor(blocksY) <= 10)
         {
