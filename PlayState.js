@@ -37,6 +37,7 @@ GAME.PlayState = function()
         block.img = new Image();
         block.img.src = 'res/blocks/' + block.name  + '.png';
     }
+    console.log(blockTypes);
     
     var blocksX = 10;
     var blocksY = 410;
@@ -49,7 +50,7 @@ GAME.PlayState = function()
 
     function getRandomBlock()
     {
-        return blockTypes[GAME.randomInt(0, blockTypes.length - 1)];
+        return blockTypes[GAME.randomInt(0, blockTypes.length)];
     }
     
     function getRandomRow()
